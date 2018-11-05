@@ -1,0 +1,13 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container-fluid {
+    padding: 0px;
+}
+
+.login-form {
+    margin-top: 55px;
+    max-width: 600px;
+}
