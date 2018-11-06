@@ -2,37 +2,31 @@
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use App\Middlewares\AuthMiddleware;
+
 $app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
   return $this->response->withJson('Test vit page');
 });
 
-$app->get('/home', 'HomeCtrl:index')->setName('home');
+$app->group('', function() {
+  
+  $this->get('/home', 'HomeCtrl:index')->setName('home');
+
+  $this->get('/reportform', 'ReportFormCtrl:index')->setName('report.form');
+
+})->add(new AuthMiddleware($container));
 
 
 //Auth
 $app->group('/auth', function(){
 
-  $this->get('/signup', 'AuthCtrl:getSignUp')->setName('auth.signup');;
-  $this->post('/signup', 'AuthCtrl:postSignUp');
+  //Sign in
+  $this->get('/signin', 'AuthCtrl:getSignIn')->setName('auth.signin');
+  $this->post('/signin', 'AuthCtrl:postSignIn');
+  
+  //Sign out
+  $this->get('/signout', 'AuthCtrl:getSignOut')->setName('auth.signout');;
 
 });
-
-
-// $app->get('/hello/{name}', function ($request, $response, $args) {
-//   return $this->view->render($response, 'home.twig', [
-//       'name' => $args['name']
-//   ]);
-// })->setName('profile');
-//Auth 
-// $app->post('/auth', \AuthCtrl::class . ':auth')->setName('auth.generate.token');
-
-//Insect data
-// $app->group('/insect', function(){
-  
-  //specific category
-//   $this->get('/families', \FamiliesCtrl::class)->setName('api.data.families.index');
-
-
-// });
 
 ?>

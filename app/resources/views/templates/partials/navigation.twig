@@ -1,4 +1,9 @@
 <!-- As a link -->
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="#">Navbar</a>
+  {% if auth.check %}
+    <a class="navbar-brand" href="{{ path_for('auth.signout')}}">Sign out</a>
+  {% else %}
+    <a class="navbar-brand" href="{{ path_for('auth.signin')}}">Sign in</a>
+  {% endif %}
 </nav>

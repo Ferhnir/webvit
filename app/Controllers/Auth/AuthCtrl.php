@@ -10,26 +10,38 @@ use App\Models\CharityAdmin;
 class AuthCtrl extends Controller
 {
 
-    public function getSignUp($request, $response)
+    public function getSignIn($request, $response)
     {
-        
-        return $this->view->render($response, 'auth/signup.twig');
+
+        return $this->view->render($response, 'auth/signin.twig');
+    
     }
     
-    public function postSignUp($request, $response)
+    public function postSignIn($request, $response)
     {
-        $auth = CharityAdmin::where([
-                            'email'    => $request->getParam('email'),
-                            'password' => $request->getParam('password')
-                ])->first();
 
-        if($auth)
+        $auth = $this->auth->attempt(
+            $request->getParam('email'),
+            $request->getParam('password')
+        );
+
+        if(!$auth)
         {
-            return $response->withRedirect($this->router->pathFor('home')); 
-        } else {
-            var_dump('Wrong login or password'); 
-        } 
+            $this->flash->addMessage('error', 'Login or password doesnt match');
+            return $response->withRedirect($this->router->pathFor('auth.signin'));     
+        }
 
+        $this->flash->addMessage('info', 'Loged in successfuly');
+        return $response->withRedirect($this->router->pathFor('home'));
+
+    }
+
+    public function getSignOut($request, $response)
+    {
+
+        $this->auth->logout();
+
+        return $response->withRedirect($this->router->pathFor('auth.signin')); 
 
     }
 

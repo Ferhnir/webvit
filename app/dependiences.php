@@ -13,21 +13,49 @@ $container['db'] = function($container) use ($capsule){
   return $capsule;
 };
 
-// Register component on container
+//Auth Module
+
+$container['auth'] = function($container) {
+    return new App\Auth\Auth;
+};
+
+//CSRF Module
+$container['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+//Middlewares setup
+$app->add(new \App\Middlewares\CsrfViewMiddleware($container));
+
+$app->add($container->csrf);
+
+//Flash Module
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
+
+// TwigView setup
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/resources/views', [
         'cache' => false
     ]);
 
-    // Instantiate and add Slim specific extension
     $view->addExtension(new Slim\Views\TwigExtension(
         $container->get('router'), 
         $container->request->getUri()
         // \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))
     ));
 
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'admin' => $container->auth->admin()
+    ]);
+
+    $view->getEnvironment()->addGlobal('flash', $container->flash);
+
     return $view;
 };
+
 
 $container['AuthCtrl'] = function ($container) {
     return new \App\Controllers\Auth\AuthCtrl($container);

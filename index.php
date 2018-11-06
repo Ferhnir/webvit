@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require 'vendor/autoload.php';
 
 //Settings
@@ -8,7 +11,6 @@ $app = new \Slim\App($settings);
 
 //Dependencies
 require_once 'app/dependiences.php';
-
 
 //Routes
 require_once 'app/routes.php';

@@ -6,8 +6,3 @@ body {
 .container-fluid {
     padding: 0px;
 }
-
-.login-form {
-    margin-top: 55px;
-    max-width: 600px;
-}
