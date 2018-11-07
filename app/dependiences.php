@@ -64,3 +64,7 @@ $container['AuthCtrl'] = function ($container) {
 $container['HomeCtrl'] = function ($container) {
     return new \App\Controllers\HomeCtrl($container);
 };
+
+$container['ReportFormCtrl'] = function ($container) {
+    return new \App\Controllers\ReportFormCtrl($container);
+};
