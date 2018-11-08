@@ -11,15 +11,29 @@
             </select>
         </div>
     </div>
-    <input id="datepicker_from" width="276" />
-    <input id="datepicker_to" width="276" />
-</form>
-
-<div class="input-group date" data-provide="datepicker">
-    <input type="text" class="form-control">
-    <div class="input-group-addon">
-        <span class="glyphicon glyphicon-th"></span>
+        <div class="form-group row col-md-8">
+        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Date from:</label>
+        <div class="col-sm-9">
+            <input id="datepicker_from" width="276" placeholder="From"/>
+        </div>
     </div>
-</div>
+        <div class="form-group row col-md-8">
+        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Date to:</label>
+        <div class="col-sm-9">
+            <input id="datepicker_to" width="276" />
+        </div>
+    </div>
+    <hr />
+    <div class="form-group row col-md-8">
+        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Save as:</label>
+        <div class="col-sm-9">
+            <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">PDF</button>
+                <button type="button" class="btn btn-secondary">XLS</button>
+                <button type="button" class="btn btn-secondary">SCV</button>
+            </div>
+        </div>
+    </div>
+</form>
 
 {% endblock %}

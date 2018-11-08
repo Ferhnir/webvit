@@ -4,7 +4,9 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+        {% if auth.check %}
         <a class="nav-link" href="{{ path_for('report.form')}}">Report form</a>
+        {% endif %}
       </li>
     </ul>
     {% if auth.check %}
