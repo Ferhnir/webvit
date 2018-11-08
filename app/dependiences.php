@@ -61,8 +61,8 @@ $container['AuthCtrl'] = function ($container) {
     return new \App\Controllers\Auth\AuthCtrl($container);
 };
 
-$container['HomeCtrl'] = function ($container) {
-    return new \App\Controllers\HomeCtrl($container);
+$container['DashboardCtrl'] = function ($container) {
+    return new \App\Controllers\DashboardCtrl($container);
 };
 
 $container['ReportFormCtrl'] = function ($container) {

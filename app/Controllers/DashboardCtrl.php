@@ -4,13 +4,13 @@ namespace App\Controllers;
 
 use Slim\Views\Twig as View;
 
-class HomeCtrl extends Controller
+class DashboardCtrl extends Controller
 {
 
     public function index($request, $response)
     {
     
-        return $this->view->render($response, 'home.twig');
+        return $this->view->render($response, 'dashboard.twig');
     
     }
 

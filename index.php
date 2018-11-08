@@ -2,17 +2,17 @@
 
 session_start();
 
-require 'vendor/autoload.php';
+require './vendor/autoload.php';
 
 //Settings
-$settings = require_once 'app/config/settings.php';
+$settings = require_once './app/config/settings.php';
 
 $app = new \Slim\App($settings);
 
 //Dependencies
-require_once 'app/dependiences.php';
+require_once './app/dependiences.php';
 
 //Routes
-require_once 'app/routes.php';
+require_once './app/routes.php';
 
 $app->run();

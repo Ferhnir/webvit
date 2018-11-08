@@ -4,13 +4,11 @@ use Psr\Http\Message\ResponseInterface;
 
 use App\Middlewares\AuthMiddleware;
 
-$app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
-  return $this->response->withJson('Test vit page');
-});
+$app->get('/', 'AuthCtrl:getSignIn')->setName('index');
 
 $app->group('', function() {
   
-  $this->get('/home', 'HomeCtrl:index')->setName('home');
+  $this->get('/dashboard', 'DashboardCtrl:index')->setName('dashboard');
 
   $this->get('/reportform', 'ReportFormCtrl:index')->setName('report.form');
 

@@ -12,8 +12,15 @@ class AuthCtrl extends Controller
 
     public function getSignIn($request, $response)
     {
+        if(!$this->ci->auth->check()){
 
-        return $this->view->render($response, 'auth/signin.twig');
+            return $this->view->render($response, 'auth/signin.twig');
+        
+        } else {
+
+            return $response->withRedirect($this->router->pathFor('dashboard'));
+        
+        }
     
     }
     
@@ -32,7 +39,7 @@ class AuthCtrl extends Controller
         }
 
         $this->flash->addMessage('info', 'Loged in successfuly');
-        return $response->withRedirect($this->router->pathFor('home'));
+        return $response->withRedirect($this->router->pathFor('dashboard'));
 
     }
 
