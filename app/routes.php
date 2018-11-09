@@ -4,6 +4,8 @@ use Psr\Http\Message\ResponseInterface;
 
 use App\Middlewares\AuthMiddleware;
 
+
+
 $app->get('/', 'AuthCtrl:getSignIn')->setName('index');
 
 $app->group('', function() {
@@ -11,6 +13,7 @@ $app->group('', function() {
   $this->get('/dashboard', 'DashboardCtrl:index')->setName('dashboard');
 
   $this->get('/reportform', 'ReportFormCtrl:index')->setName('report.form');
+  $this->post('/reportform', 'ReportFormCtrl:downloadCsvAction')->setName('report.download.csv');
 
 })->add(new AuthMiddleware($container));
 

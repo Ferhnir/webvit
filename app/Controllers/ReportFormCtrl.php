@@ -4,14 +4,101 @@ namespace App\Controllers;
 
 use Slim\Views\Twig as View;
 
+use Illuminate\Database\Schema\Builder;
+
+use App\Models\Charities;
+use App\Models\PaymentTransactions as PayTrans;
+
 class ReportFormCtrl extends Controller
 {
+    protected $columns = [];
 
     public function index($request, $response)
     {
+
+        $charities = Charities::select('charity_id','charity_name')->get();
+
+        return $this->view->render($response, 'reportForm.twig', [
+            'charities' => $charities
+        ]);
     
-        return $this->view->render($response, 'reportForm.twig');
+    }
+
+    public function downloadCsvAction($request, $response)
+    {
+
+        $this->setColumns();
+
+        $query = $this->getReportData($request->getParam('charity_id'));
+
+        $stream = fopen('php://memory', 'w+');
     
+        fputcsv($stream, $this->columns, ';');
+
+        foreach ($query as $fields) {
+            $data = [];
+            foreach($this->columns as $column_name){
+                array_push($data, $fields[$column_name]);
+            }
+            fputcsv($stream, $data, ';');
+        }
+
+        rewind($stream);
+
+        $filename = date('Y-m-d') . '_charity_report.csv';
+
+        $response = $this->response
+            ->withHeader('Content-Type', 'text/csv')
+            ->withHeader('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->withHeader('Pragma', 'no-cache')
+            ->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->withHeader('Expires', '0');
+
+        return $response->withBody(new \Slim\Http\Stream($stream));
+        
+    }
+
+    private function setColumns()
+    {
+        $this->columns = [
+            'firstname',
+            'lastname',
+            'note',
+            'total_donation',
+            'charity_name',
+            'address_line1',
+            'address_line2',
+            'address_line3',
+            'address_line4',
+            'text1',
+            'text2',
+            'text3',
+            'text4',
+            'user_id',
+            'email'
+        ];
+    }
+
+    private function getReportData($charity_id)
+    {
+
+        if(is_numeric($charity_id)){
+            
+            $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
+                              ->select($this->columns)
+                              ->where('to_charity','=',$charity_id)
+                              ->get();
+                              
+        } else {
+                                
+            $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
+                               ->select($this->columns)
+                               ->get();
+                                
+        }
+
+        return $query;
+
     }
 
 }

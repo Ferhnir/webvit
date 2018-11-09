@@ -5,8 +5,7 @@ $('#datepicker_to').datepicker({
     uiLibrary: 'bootstrap4'
 });
 
-$(document).ready(function() {
-    
+$(document).ready(function() {    
     setTimeout(function(){
         $("#flashAlert").fadeOut(1000);
     },'4000');
