@@ -68,3 +68,7 @@ $container['DashboardCtrl'] = function ($container) {
 $container['ReportFormCtrl'] = function ($container) {
     return new \App\Controllers\ReportFormCtrl($container);
 };
+
+$container['EmailResetCtrl'] = function ($container) {
+    return new \App\Controllers\EmailResetCtrl($container);
+};

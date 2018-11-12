@@ -6,7 +6,6 @@ use Slim\Views\Twig as View;
 
 use Illuminate\Database\Schema\Builder;
 
-use App\Models\Charities;
 use App\Models\PaymentTransactions as PayTrans;
 
 class ReportFormCtrl extends Controller
@@ -15,8 +14,6 @@ class ReportFormCtrl extends Controller
 
     public function index($request, $response)
     {
-
-        $charities = Charities::select('charity_id','charity_name')->get();
 
         return $this->view->render($response, 'reportForm.twig', [
             'charities' => $charities
@@ -29,7 +26,10 @@ class ReportFormCtrl extends Controller
 
         $this->setColumns();
 
-        $query = $this->getReportData($request->getParam('charity_id'));
+        $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
+                           ->select($this->columns)
+                           ->where('to_charity','=',$charity_id)
+                           ->get();
 
         $stream = fopen('php://memory', 'w+');
     
@@ -77,28 +77,6 @@ class ReportFormCtrl extends Controller
             'user_id',
             'email'
         ];
-    }
-
-    private function getReportData($charity_id)
-    {
-
-        if(is_numeric($charity_id)){
-            
-            $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
-                              ->select($this->columns)
-                              ->where('to_charity','=',$charity_id)
-                              ->get();
-                              
-        } else {
-                                
-            $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
-                               ->select($this->columns)
-                               ->get();
-                                
-        }
-
-        return $query;
-
     }
 
 }

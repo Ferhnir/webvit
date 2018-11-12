@@ -1,6 +1,6 @@
 <?php
 //loading priv file for db
-$priv_file = __DIR__ . '\.priv_data';
+$priv_file = __DIR__ . '/.priv_data';
 if(file_exists($priv_file)){
     $priv_data = explode(',',file_get_contents($priv_file));
 } else {

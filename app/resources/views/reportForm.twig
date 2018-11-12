@@ -8,26 +8,6 @@
     method="post" 
     action="{{ path_for('report.download.csv') }}">
     <div class="form-group row col-md-8">
-        <label for="TypeReport" class="col-sm-3 col-form-label">Type of report:</label>
-        <div class="col-sm-9">
-            <select class="form-control" id="TypeReport" required>
-                <option>Select type of report</option>
-                <option>Charity donations report</option>
-            </select>
-        </div>
-    </div>
-        <div class="form-group row col-md-8">
-        <label for="CharityNameSelectBox" class="col-sm-3 col-form-label">Charity name:</label>
-        <div class="col-sm-9">
-            <select class="form-control" name="charity_id" id="CharityNameSelectBox" required>
-                <option value="*">All</option>
-                {% for charity in charities %}
-                    <option value="{{ charity.charity_id }}">{{ charity.charity_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <div class="form-group row col-md-8">
         <label for="datepicker_from" class="col-sm-3 col-form-label">Date from:</label>
         <div class="col-sm-9">
             <input name="date_from" id="datepicker_from" width="276" placeholder="From" required/>
@@ -40,14 +20,9 @@
         </div>
     </div>
     <hr />
-    <div class="form-group row col-md-8">
-        <label for="exampleFormControlSelect1" class="col-sm-3 col-form-label">Save as:</label>
+    <div class="form-row col-md-8">
         <div class="col-sm-9">
-            <div class="btn-group btn-block" role="group" aria-label="Basic example">
-                <button type="submit" class="btn btn-secondary" disabled>PDF</button>
-                <button type="submit" class="btn btn-secondary" disabled>XLS</button>
-                <button type="submit" class="btn btn-secondary">CSV</button>
-            </div>
+            <button type="submit" class="btn btn-secondary">Download</button>
         </div>
     </div>    
     {{ csrf.field | raw }}

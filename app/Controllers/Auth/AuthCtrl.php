@@ -52,4 +52,17 @@ class AuthCtrl extends Controller
 
     }
 
+    public function forgottenPassword($request, $response)
+    {
+
+        return $this->view->render($response, 'auth/forgotten_password.twig'); 
+
+    }
+
+    public function sentResetPasswordEmail()
+    {
+
+
+    }
+
 }

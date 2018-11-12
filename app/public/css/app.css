@@ -6,3 +6,7 @@ body {
 .container-fluid {
     padding: 0px;
 }
+
+input.form-control {
+    border-radius: 19px;
+}

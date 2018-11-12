@@ -26,8 +26,20 @@ $app->group('/auth', function(){
   $this->post('/signin', 'AuthCtrl:postSignIn');
   
   //Sign out
-  $this->get('/signout', 'AuthCtrl:getSignOut')->setName('auth.signout');;
+  $this->get('/signout', 'AuthCtrl:getSignOut')->setName('auth.signout');
 
+
+});
+
+//Email reset
+$app->group('/email', function() use ($app) {
+
+  $this->get('/password_reset', 'EmailResetCtrl:forgotPassword')->setName('email.forgot.password');
+  $this->post('/password_reset', 'EmailResetCtrl:sentResetPasswordEmail');
+
+  $this->get('/sent', 'EmailResetCtrl:resetPasswordEmailSent')->setName('email.password.sent');
+
+  $this->get('/password_reset_form', 'EmailResetCtrl:passwordResetForm')->setName('password.reset.form');
 });
 
 ?>
