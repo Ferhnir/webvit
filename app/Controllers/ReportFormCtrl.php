@@ -15,9 +15,7 @@ class ReportFormCtrl extends Controller
     public function index($request, $response)
     {
 
-        return $this->view->render($response, 'reportForm.twig', [
-            'charities' => $charities
-        ]);
+        return $this->view->render($response, 'reportForm.twig');
     
     }
 
@@ -28,7 +26,6 @@ class ReportFormCtrl extends Controller
 
         $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
                            ->select($this->columns)
-                           ->where('to_charity','=',$charity_id)
                            ->get();
 
         $stream = fopen('php://memory', 'w+');
@@ -38,7 +35,7 @@ class ReportFormCtrl extends Controller
         foreach ($query as $fields) {
             $data = [];
             foreach($this->columns as $column_name){
-                array_push($data, $fields[$column_name]);
+                array_push($data, str_replace('\r','',$fields[$column_name]));
             }
             fputcsv($stream, $data, ';');
         }

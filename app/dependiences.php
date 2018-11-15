@@ -14,9 +14,14 @@ $container['db'] = function($container) use ($capsule){
 };
 
 //Auth Module
-
 $container['auth'] = function($container) {
     return new App\Auth\Auth;
+};
+
+//Jwt Module
+$container['token'] = function ($c) {
+    $token = $c['settings']['token'];
+    return $token;
 };
 
 //CSRF Module
@@ -59,6 +64,10 @@ $container['view'] = function ($container) {
 
 $container['AuthCtrl'] = function ($container) {
     return new \App\Controllers\Auth\AuthCtrl($container);
+};
+
+$container['JwtCtrl'] = function ($container) {
+    return new \App\Controllers\Auth\JwtCtrl($container);
 };
 
 $container['DashboardCtrl'] = function ($container) {

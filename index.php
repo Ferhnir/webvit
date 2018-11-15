@@ -16,3 +16,10 @@ require_once './app/dependiences.php';
 require_once './app/routes.php';
 
 $app->run();
+
+// if(defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
+//     echo "CRYPT_BLOWFISH is enabled!";
+//     echo crypt('123');
+//   } else {
+//     echo "CRYPT_BLOWFISH is NOT enabled!";
+//   }

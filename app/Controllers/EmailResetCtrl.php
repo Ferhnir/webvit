@@ -9,6 +9,9 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+use App\Models\CharityAdmin;
+use App\Controllers\Auth\JwtCtrl;
+
 class EmailResetCtrl extends Controller
 {
     
@@ -19,16 +22,73 @@ class EmailResetCtrl extends Controller
 
     }
 
-    public function sentResetPasswordEmail($request, $response, $app)
+    public function sentResetPasswordEmail($request, $response)
     {
-        
+
+        $email = $request->getParam('email');
+
+        $admin = CharityAdmin::where('email',$email)->first();
+
+        if(!$admin)
+        {
+
+            $this->flash->addMessage('error', 'Email not found');
+
+            return $response->withRedirect($this->router->pathFor('email.error.msg')); 
+
+        }
+
+        $token = JwtCtrl::generateToken($email, $this->ci['token']['secret']);
+
+        return $this->view->render($response, './email/reset_password_email_sent.twig', [
+            'token' => $token
+        ]); 
 
     }
 
-    public function resetPasswordEmailSent($request, $response)
+    public function resetPassword($request, $response)
     {
 
-        return $this->view->render($response, './email/reset_password_email_sent.twig');
+        $update = $this->auth->updatePassword($request->getParam('email'),$request->getParam('new_password'));
+
+        if($update)
+        {
+
+            return $this->view->render($response, 'auth/signin.twig');
+
+        }
+
+    }
+
+    public function resetPasswordForm($request, $response)
+    {
+
+        $data = JwtCtrl::decodeToken($request->getParam('token'),$this->ci['token']['secret']);
+
+        $admin = CharityAdmin::where('email',$data->email)->first();
+
+        if(!$admin)
+        {
+
+            $this->flash->addMessage('error', 'Email not found');
+
+            return $response->withRedirect($this->router->pathFor('email.error.msg')); 
+        
+        } else {
+
+            return $this->view->render($response, './email/reset_password_email_form.twig', [
+                'email' => $data->email
+            ]);
+
+        }
+
+
+    }
+
+    public function emailErrorMsg($request, $response)
+    {
+
+        return $this->view->render($response, './email/error_msg.twig');
 
     }
 

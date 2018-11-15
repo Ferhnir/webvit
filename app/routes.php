@@ -34,12 +34,15 @@ $app->group('/auth', function(){
 //Email reset
 $app->group('/email', function() use ($app) {
 
-  $this->get('/password_reset', 'EmailResetCtrl:forgotPassword')->setName('email.forgot.password');
-  $this->post('/password_reset', 'EmailResetCtrl:sentResetPasswordEmail');
+  $this->get('/forgot_password', 'EmailResetCtrl:forgotPassword')->setName('email.forgot.password');
+  $this->post('/forgot_password', 'EmailResetCtrl:sentResetPasswordEmail');
 
   $this->get('/sent', 'EmailResetCtrl:resetPasswordEmailSent')->setName('email.password.sent');
 
-  $this->get('/password_reset_form', 'EmailResetCtrl:passwordResetForm')->setName('password.reset.form');
+  $this->get('/password_reset_form', 'EmailResetCtrl:resetPasswordForm')->setName('password.reset.form');
+  $this->post('/password_reset_form','EmailResetCtrl:resetPassword');
+
+  $this->get('/error', 'EmailResetCtrl:emailErrorMsg')->setName('email.error.msg');
 });
 
 ?>

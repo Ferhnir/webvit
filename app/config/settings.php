@@ -15,13 +15,18 @@ return [
 
         'db' => [
             'driver'        => 'mysql',
-            'host'          => 'localhost',
+            'host'          => 'frost.dedi.melbourne.co.uk',
+            'port'          => '3308',
             'database'      => 'toy',
             'username'      => $priv_data[0],
             'password'      => $priv_data[1],
             'charset'       => 'utf8',
             'collation'     => 'utf8_unicode_ci',
             'prefix'        => ''
+        ],        
+        'token' => [
+            'secret' => 'emailresetkey',
+            'validation' => 1
         ],
     ],
 ];

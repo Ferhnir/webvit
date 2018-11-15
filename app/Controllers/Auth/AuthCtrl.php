@@ -59,10 +59,11 @@ class AuthCtrl extends Controller
 
     }
 
-    public function sentResetPasswordEmail()
+    public function updatePassword($user, $new_password)
     {
 
-
+            $this->auth->updatePassword($new_password);
+ 
     }
 
 }

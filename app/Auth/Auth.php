@@ -39,7 +39,7 @@ class Auth
             return false;
         }
 
-        if($password == $admin->password)
+        if(password_verify($password, $admin->password))
         {
             $_SESSION['admin'] = $admin->id;
             return true;
@@ -51,6 +51,17 @@ class Auth
     {
 
         unset($_SESSION['admin']);
+
+    }
+
+    public function updatePassword($email, $new_password)
+    {
+
+        $admin = CharityAdmin::where('email',$email)->first();
+
+        $admin->password = password_hash($new_password, PASSWORD_BCRYPT);
+    
+        $admin->save();
 
     }
 
