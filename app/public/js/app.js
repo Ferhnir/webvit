@@ -6,10 +6,23 @@ $('#datepicker_to').datepicker({
 });
 
 $(document).ready(function() {    
+    
     setTimeout(function(){
         $("#flashAlert").fadeOut(1000);
-    },'4000');
+    },4000);
+    
 });
+
+$("#ReNewPassword").keyup(checkPasswordMatch);
+
+$("#DownloadCsv").on('click', reloadPage);
+
+function reloadPage() {
+    console.log('page reloaded');
+    setTimeout(function(){
+        location.reload();
+    },2000);
+}
 
 function checkPasswordMatch() {
     var password = $("#NewPassword").val();
@@ -20,7 +33,3 @@ function checkPasswordMatch() {
     else
         $("#PassRessetBttn").removeAttr("disabled"); 
 }
-
-$(document).ready(function () {
-   $("#ReNewPassword").keyup(checkPasswordMatch);
-});
