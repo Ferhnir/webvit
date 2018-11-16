@@ -10,7 +10,7 @@ use App\Models\PaymentTransactions as PayTrans;
 
 class ReportFormCtrl extends Controller
 {
-    protected $columns = [];
+    protected $columns, $columnsHeader = [];
 
     public function index($request, $response)
     {
@@ -24,21 +24,25 @@ class ReportFormCtrl extends Controller
 
         $this->setColumns();
 
-        $query = PayTrans::join('charities','payment_transactions.to_charity','=','charities.charity_id')
-                           ->select($this->columns)
+        $query = PayTrans::select($this->columns)
                            ->get();
 
         $stream = fopen('php://memory', 'w+');
     
-        fputcsv($stream, $this->columns, ';');
+        fputcsv($stream, $this->columnsHeader);
 
         foreach ($query as $fields) {
             $data = [];
             foreach($this->columns as $column_name){
-                array_push($data, str_replace('\r','',$fields[$column_name]));
+                array_push($data, str_replace('\r\l',' ',$fields[$column_name]));
+                // array_push($data, $fields[$column_name]);
             }
-            fputcsv($stream, $data, ';');
+            fputcsv($stream, $data);
         }
+        // echo '<pre>';
+        // var_dump($stream);
+        // echo '</pre>';
+        // die();
 
         rewind($stream);
 
@@ -62,17 +66,19 @@ class ReportFormCtrl extends Controller
             'lastname',
             'note',
             'total_donation',
-            'charity_name',
             'address_line1',
-            'address_line2',
-            'address_line3',
-            'address_line4',
-            'text1',
-            'text2',
-            'text3',
-            'text4',
             'user_id',
             'email'
+        ];
+
+        $this->columnsHeader = [
+            'First name',
+            'Last name',
+            'Note',
+            'Total Donation',
+            'Address',
+            'User ID',
+            'Email'
         ];
     }
 
