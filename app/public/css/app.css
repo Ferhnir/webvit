@@ -1,12 +1,139 @@
 body {
     margin: 0px;
     padding: 0px;
+    line-height: 1.5;
 }
 
 .container-fluid {
     padding: 0px;
 }
 
+.header-blue {
+    color: rgba(1,123,253,1);
+    font-size: 1.2rem;
+}
+
+/* Forms */
 input.form-control {
     border-radius: 19px;
+}
+
+.form-group {
+    text-align: center;
+}
+
+.form-group > input {
+    border-color: rgba(1,123,253,1);
+    background-color: #FFF;
+}
+
+.btn-rounded {
+    border-radius: 19px;
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+/* Navbar */
+.nav-link.pos-right,
+.navbar-bg {
+    color: #FFF;
+}
+
+.nav-link.pos-right {
+    position: absolute;
+    right: 0px;
+}
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+}
+
+.navbar-brand {
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.navbar > span {
+    line-height: inherit;
+    font-size: 2rem;
+}
+
+.navbar-bg {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+0,017bfd+100 */
+    background: rgb(125,185,232); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(125,185,232,1) 0%, rgba(1,123,253,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(125,185,232,1) 0%,rgba(1,123,253,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(125,185,232,1) 0%,rgba(1,123,253,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#017bfd',GradientType=0 ); /* IE6-9 */
+}
+
+/* Circles */
+
+.circle-float {
+    position: fixed;
+    z-index: -1;
+}
+
+.circle-float:before {
+    content: "";
+    display: block;
+    width: 215px;
+    height: 215px;
+    background-image: url(../svg/circle-blue.svg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    position: absolute;
+    opacity: 1;
+}
+
+ .circle-float:after {
+    content: "";
+    display: block;
+    width: 110px;
+    height: 110px;
+    left: 130px;
+    top: 150px;
+    background-image: url(../svg/circle-yellow.svg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    position: absolute;
+    z-index: -3;
+}
+
+.circle-float.left.top {
+    top: 130px;
+    left: -105px;
+}
+
+.hero .circle-float.right {
+    top: 510px;
+    right: 100px;
+}
+
+.hero .circle-float.right:before {
+    content: "";
+    display: block;
+    background-image: url(../svg//circle-red.svg);
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+}
+
+.hero .circle-float.right:after {
+    width: 135px;
+    right: 135px;
+    top: 100px;
+    left: -50px;
 }

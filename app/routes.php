@@ -42,6 +42,8 @@ $app->group('/email', function() use ($app) {
   $this->get('/password_reset_form', 'EmailResetCtrl:resetPasswordForm')->setName('password.reset.form');
   $this->post('/password_reset_form','EmailResetCtrl:resetPassword');
 
+  $this->get('/password_changed', 'EmailResetCtrl:passwordChanged')->setName('password.changed');
+
   $this->get('/error', 'EmailResetCtrl:emailErrorMsg')->setName('email.error.msg');
 });
 

@@ -3,6 +3,7 @@
 namespace App\Auth;
 
 use App\Models\CharityAdmin;
+use Illuminate\Database\QueryException;
 
 class Auth
 {
@@ -57,11 +58,21 @@ class Auth
     public function updatePassword($email, $new_password)
     {
 
-        $admin = CharityAdmin::where('email',$email)->first();
+        try {
 
-        $admin->password = password_hash($new_password, PASSWORD_BCRYPT);
+            $admin = CharityAdmin::where('email',$email)->first();
     
-        $admin->save();
+            $admin->password = password_hash($new_password, PASSWORD_BCRYPT);
+        
+            $admin->save();
+        
+            return true;
+
+        } catch (QueryException $e) {
+
+            return false;
+
+        }
 
     }
 

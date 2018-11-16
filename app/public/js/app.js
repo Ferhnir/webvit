@@ -5,11 +5,11 @@ $('#datepicker_to').datepicker({
     uiLibrary: 'bootstrap4'
 });
 
-// $(document).ready(function() {    
-//     setTimeout(function(){
-//         $("#flashAlert").fadeOut(1000);
-//     },'4000');
-// });
+$(document).ready(function() {    
+    setTimeout(function(){
+        $("#flashAlert").fadeOut(1000);
+    },'4000');
+});
 
 function checkPasswordMatch() {
     var password = $("#NewPassword").val();

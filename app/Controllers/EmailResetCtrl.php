@@ -54,7 +54,9 @@ class EmailResetCtrl extends Controller
         if($update)
         {
 
-            return $this->view->render($response, 'auth/signin.twig');
+            $this->flash->addMessage('info', 'Password has been changed successfully');
+
+            return $response->withRedirect($this->router->pathFor('password.changed'));
 
         }
 
@@ -82,6 +84,13 @@ class EmailResetCtrl extends Controller
 
         }
 
+
+    }
+
+    public function passwordChanged($request, $response)
+    {
+
+        return $this->view->render($response, './email/password_changed.twig');
 
     }
 

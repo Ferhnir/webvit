@@ -1,18 +1,13 @@
 <!-- As a link -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="{{ path_for('index')}}">Charity report page</a>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        {% if auth.check %}
-        <a class="nav-link" href="{{ path_for('report.form')}}">Report form</a>
-        {% endif %}
-      </li>
-    </ul>
+<nav class="navbar navbar-bg justify-content-between">  
+    <span class="navbar-brand mt-3 mb-3">
     {% if auth.check %}
-      <a class="navbar-brand" href="{{ path_for('auth.signout')}}">Sign out</a>
+      Welcome to the Thinking of You Charity Portal
     {% else %}
-      <a class="navbar-brand" href="{{ path_for('auth.signin')}}">Sign in</a>
+      Charity Login
     {% endif %}
-  </div>
+    </span>
+    {% if auth.check %}
+      <a class="nav-link pos-right" href="{{ path_for('auth.signout') }}">Sign out</a>
+    {% endif %}  
 </nav>

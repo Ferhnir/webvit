@@ -11,6 +11,7 @@ use App\Models\PaymentTransactions as PayTrans;
 class ReportFormCtrl extends Controller
 {
     protected $columns, $columnsHeader = [];
+    protected $from, $to = '';
 
     public function index($request, $response)
     {
@@ -18,15 +19,43 @@ class ReportFormCtrl extends Controller
         return $this->view->render($response, 'reportForm.twig');
     
     }
-
+    
     public function downloadCsvAction($request, $response)
-    {
-
+    {       
         $this->setColumns();
 
-        $query = PayTrans::select($this->columns)
-                           ->get();
+        $this->from   = strtotime($this->request->getParam('date_from'));
+        $this->to     = strtotime($this->request->getParam('date_to'));
 
+        if($this->from > $this->to) {
+            
+            $to   = $this->from;
+            $from = $this->to;
+        
+        } else {
+
+            $to   = $this->to;
+            $from = $this->from;
+
+        }
+        
+        
+        $query = PayTrans::select($this->columns)
+                          ->where('status','=','1')
+                          ->where(function ($query) use ($from, $to){
+                              $query->whereBetween('timeCompleted',[$from, $to + 86400]);
+                          })
+                          ->get();
+                          
+        if($query->isEmpty())
+        {
+            $this->flash->addMessage('warning', 'There is no transaction payments between '.$this->request->getParam('date_from').' and '.$this->request->getParam('date_to'));
+            
+            return $response->withRedirect($this->router->pathFor('report.form'));
+            
+        }
+
+        
         $stream = fopen('php://memory', 'w+');
     
         fputcsv($stream, $this->columnsHeader);
@@ -35,14 +64,10 @@ class ReportFormCtrl extends Controller
             $data = [];
             foreach($this->columns as $column_name){
                 array_push($data, str_replace('\r\l',' ',$fields[$column_name]));
-                // array_push($data, $fields[$column_name]);
+                
             }
             fputcsv($stream, $data);
         }
-        // echo '<pre>';
-        // var_dump($stream);
-        // echo '</pre>';
-        // die();
 
         rewind($stream);
 

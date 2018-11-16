@@ -39,7 +39,7 @@ class AuthCtrl extends Controller
         }
 
         $this->flash->addMessage('info', 'Loged in successfuly');
-        return $response->withRedirect($this->router->pathFor('dashboard'));
+        return $response->withRedirect($this->router->pathFor('report.form'));
 
     }
 
