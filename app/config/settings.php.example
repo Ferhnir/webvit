@@ -1,22 +1,26 @@
 <?php
 return [
     'settings' => [
+        //Slim settings
         'displayErrorDetails' => true,
         'addContentLengthHeader' => false,
 
+        //Database connection
         'db' => [
             'driver'        => 'mysql',
             'host'          => 'localhost',
-            // 'port'          => '3308',
-            'database'      => 'toy',
-            'username'      => 'root',
+            // 'port'        => '3308',
+            'database'      => '',
+            'username'      => '',
             'password'      => '',
             'charset'       => 'utf8',
             'collation'     => 'utf8_unicode_ci',
             'prefix'        => ''
         ],        
+
+        //JWToken settings
         'token' => [
-            'secret' => 'emailresetkey',
+            'secret' => '',
             'validation' => 1
         ],
     ],

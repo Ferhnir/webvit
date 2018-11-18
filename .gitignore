@@ -1,2 +1,2 @@
-/app/config/.priv_data
-/vendor
+app/config/settings.php
+vendor
