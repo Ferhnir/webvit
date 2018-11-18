@@ -2,43 +2,32 @@
 
 {% block content %}
 <div class="row justify-content-md-center mt-2">
-        <div class="row mt-3">
-            <div class="col text-center">
-                <div id="flashAlert">
-                    {% include 'templates/partials/flash.twig' %}
-                </div>
-            </div>
+    <div class="col col-md-6">
+        <div id="flashAlert">
+            {% include 'templates/partials/flash.twig' %}
         </div>
     </div>
 </div>
 <div class="row justify-content-md-center mt-2">
-        <div class="row mt-3">
-            <div class="col text-center">
-                <label class="header-blue">Donation report</label>
-                <p>Please select the dates you would like to cover</p>
-            </div>
-        </div>
+    <div class="col col-md-6 text-center">
+        <label class="header-blue">Donation report</label>
+        <p>Please select the dates you would like to cover</p>
     </div>
 </div>
 <div class="row justify-content-md-center">
-        <div class="row mt-3">
-            <div class="col text-center">
-                <form 
-                    method="post" 
-                    action="{{ path_for('report.download.csv') }}">
-                    <div class="form-group">
-                        <label for="datepicker_from" class="header-blue">From:</label>
-                        <input name="date_from" id="datepicker_from" width="276" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="datepicker_to" class="header-blue">To:</label>
-                        <input name="date_to" id="datepicker_to" width="276" required/>
-                    </div>
-                    <button id="DownloadCsv" type="submit" class="btn btn-primary btn-rounded mt-3">Download</button>
-                    {{ csrf.field | raw }}
-                </form>
+    <div class="col col-md-6 text-center">
+        <form method="post" action="{{ path_for('report.download.csv') }}">
+            <div class="form-group">
+                <label for="datepicker_from" class="header-blue">From:</label>
+                <input name="date_from" id="datepicker_from" required />
             </div>
-        </div>
+            <div class="form-group">
+                <label for="datepicker_to" class="header-blue">To:</label>
+                <input name="date_to" id="datepicker_to" required />
+            </div>
+            <button id="DownloadCsv" type="submit" class="btn btn-primary btn-rounded mt-3">Download</button>
+            {{ csrf.field | raw }}
+        </form>
     </div>
 </div>
 {% endblock %}

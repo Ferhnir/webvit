@@ -38,6 +38,17 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
 }
 
+.btn-outline-secondary {
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+}
+
+
+.gj-datepicker.gj-datepicker-bootstrap.gj-unselectable.input-group {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
 /* Navbar */
 .nav-link.pos-right,
 .navbar-bg {
