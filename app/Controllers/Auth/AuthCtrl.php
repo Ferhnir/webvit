@@ -18,7 +18,7 @@ class AuthCtrl extends Controller
         
         } else {
 
-            return $response->withRedirect($this->router->pathFor('dashboard'));
+            return $response->withRedirect($this->router->pathFor('report.form'));
         
         }
     

@@ -10,8 +10,6 @@ use App\Middlewares\TokenCheckMiddleware;
 $app->get('/', 'AuthCtrl:getSignIn')->setName('index');
 
 $app->group('', function() {
-  
-  $this->get('/dashboard', 'DashboardCtrl:index')->setName('dashboard');
 
   $this->get('/reportform', 'ReportFormCtrl:index')->setName('report.form');
   $this->post('/reportform', 'ReportFormCtrl:downloadCsvAction')->setName('report.download.csv');
@@ -32,20 +30,25 @@ $app->group('/auth', function(){
 
 });
 
-//Email reset
+//Email
 $app->group('/email', function() use ($app) {
 
+  //request
   $this->get('/forgot_password', 'EmailResetCtrl:forgotPassword')->setName('email.forgot.password');
   $this->post('/forgot_password', 'EmailResetCtrl:sentResetPasswordEmail');
 
+  //confirmation email sent
   $this->get('/sent', 'EmailResetCtrl:resetPasswordEmailSent')->setName('email.password.sent');
-
-  $this->post('/password_reset_form','EmailResetCtrl:resetPassword');
-
-  $this->get('/password_changed', 'EmailResetCtrl:passwordChanged')->setName('password.changed');
-
+  
+  
+  //error handler
   $this->get('/error', 'EmailResetCtrl:emailErrorMsg')->setName('email.error.msg');
 });
 
+//Password reset form
 $app->get('/password_reset_form', 'EmailResetCtrl:resetPasswordForm')->setName('password.reset.form')->add(new TokenCheckMiddleware($container));
+$app->post('/password_reset_form','EmailResetCtrl:resetPassword');
+
+//confrimation password changed
+$app->get('/password_changed', 'EmailResetCtrl:passwordChanged')->setName('password.changed');
 ?>

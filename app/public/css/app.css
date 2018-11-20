@@ -34,6 +34,10 @@ input.form-control {
     padding-right: 40px;
 }
 
+.btn.btn-outline-secondary {
+    background-color: #FFF !important;
+}
+
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
 }
@@ -49,34 +53,22 @@ input:-webkit-autofill {
     margin: 0 auto;
 }
 
-/* Navbar */
-.nav-link.pos-right,
-.navbar-bg {
-    color: #FFF;
-}
-
-.nav-link.pos-right {
-    position: absolute;
-    right: 0px;
-}
-
-.navbar .navbar-nav {
-    display: inline-block;
-    float: none;
-}
-
-.navbar-brand {
-    text-align: center;
+.pigbank {
     width: 100%;
-    font-size: 2rem;
 }
 
-.navbar > span {
-    line-height: inherit;
-    font-size: 2rem;
+/* Navbar */
+
+.topbar {
+    height: auto;
+    line-height: 2rem;
+    padding: 20px;
+    text-align: center;
+    color: #FFF;
+    font-size: 1.6rem;
 }
 
-.navbar-bg {
+.topbar-bg {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+0,017bfd+100 */
     background: rgb(125,185,232); /* Old browsers */
     background: -moz-linear-gradient(top, rgba(125,185,232,1) 0%, rgba(1,123,253,1) 100%); /* FF3.6-15 */

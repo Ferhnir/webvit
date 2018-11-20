@@ -57,6 +57,8 @@ $container['view'] = function ($container) {
         'admin' => $container->auth->admin()
     ]);
 
+    $view->getEnvironment()->addGlobal("session", $_SESSION);
+
     $view->getEnvironment()->addGlobal('flash', $container->flash);
 
     return $view;
@@ -69,10 +71,6 @@ $container['AuthCtrl'] = function ($container) {
 
 $container['JwtCtrl'] = function ($container) {
     return new \App\Controllers\Auth\JwtCtrl($container);
-};
-
-$container['DashboardCtrl'] = function ($container) {
-    return new \App\Controllers\DashboardCtrl($container);
 };
 
 $container['ReportFormCtrl'] = function ($container) {

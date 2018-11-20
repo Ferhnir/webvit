@@ -12,8 +12,9 @@
         <link rel="stylesheet" href="{{ base_url() }}/app/public/css/app.css">
     </head>
     <body>
-        {% include 'templates/partials/navigation.twig' %}            
-            <div class="container mt-5">
+        {% include 'templates/partials/navigation.twig' %}
+        {% include 'templates/partials/topbar.twig' %}            
+            <div class="container mt-3">
                 {% block content %}{% endblock %}
             </div>
         </div>

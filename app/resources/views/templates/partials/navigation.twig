@@ -1,13 +1,9 @@
 <!-- As a link -->
-<nav class="navbar navbar-bg justify-content-between">  
-    <span class="navbar-brand mt-3 mb-3">
-    {% if auth.check %}
-      Welcome to the Thinking of You Charity Portal
-    {% else %}
-      Charity Login
-    {% endif %}
-    </span>
-    {% if auth.check %}
-      <a class="nav-link pos-right" href="{{ path_for('auth.signout') }}">Sign out</a>
-    {% endif %}  
+<nav class="navbar navbar-bg d-flex">  
+  <a class="navbar-brand flex-grow-1" href="#">
+    <img src="{{ base_url() }}/app/public/images/ToY-logo.png" width="auto" height="58" alt="Toy-logo">
+  </a>
+  {% if auth.check %}
+    <span class="pos-right">{{ auth.admin.email }} | </span><a class="nav-link pos-right" href="{{ path_for('auth.signout') }}">Sign out</a>
+  {% endif %}  
 </nav>
