@@ -3,6 +3,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use App\Middlewares\AuthMiddleware;
+use App\Middlewares\TokenCheckMiddleware;
 
 
 
@@ -39,7 +40,6 @@ $app->group('/email', function() use ($app) {
 
   $this->get('/sent', 'EmailResetCtrl:resetPasswordEmailSent')->setName('email.password.sent');
 
-  $this->get('/password_reset_form', 'EmailResetCtrl:resetPasswordForm')->setName('password.reset.form');
   $this->post('/password_reset_form','EmailResetCtrl:resetPassword');
 
   $this->get('/password_changed', 'EmailResetCtrl:passwordChanged')->setName('password.changed');
@@ -47,4 +47,5 @@ $app->group('/email', function() use ($app) {
   $this->get('/error', 'EmailResetCtrl:emailErrorMsg')->setName('email.error.msg');
 });
 
+$app->get('/password_reset_form', 'EmailResetCtrl:resetPasswordForm')->setName('password.reset.form')->add(new TokenCheckMiddleware($container));
 ?>

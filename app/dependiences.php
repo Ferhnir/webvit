@@ -31,8 +31,9 @@ $container['csrf'] = function ($container) {
 
 //Middlewares setup
 $app->add(new \App\Middlewares\CsrfViewMiddleware($container));
-
 $app->add($container->csrf);
+
+
 
 //Flash Module
 $container['flash'] = function () {
