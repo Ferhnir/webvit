@@ -1,28 +1,17 @@
+//Form
+//1* date picker
 $('#datepicker_from').datepicker({
     uiLibrary: 'bootstrap4'
 });
 $('#datepicker_to').datepicker({
     uiLibrary: 'bootstrap4'
 });
-
-$(document).ready(function() {    
-    
-    setTimeout(function(){
-        $("#flashAlert").fadeOut(1000);
-    },4000);
-    
-});
-
-$("#ReNewPassword").keyup(checkPasswordMatch);
-
+//2* download report bttn
 $("#DownloadCsv").on('click', reloadPage);
+//=======================================
 
-function reloadPage() {
-    console.log('page reloaded');
-    setTimeout(function(){
-        location.reload();
-    },2000);
-}
+//Password reset validation
+$("#ReNewPassword").keyup(checkPasswordMatch);
 
 function checkPasswordMatch() {
     var password = $("#NewPassword").val();
@@ -33,3 +22,23 @@ function checkPasswordMatch() {
     else
         $("#PassRessetBttn").removeAttr("disabled"); 
 }
+//=======================================
+
+//Page reload after form download
+$(document).ready(function() {    
+    
+    setTimeout(function(){
+        $("#flashAlert").fadeOut(1000);
+    },4000);
+    
+});
+
+function reloadPage() {
+    console.log('page reloaded');
+    setTimeout(function(){
+        location.reload();
+    },2000);
+}
+//=======================================
+
+  

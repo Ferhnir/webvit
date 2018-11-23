@@ -43,6 +43,16 @@ class Auth
         if(password_verify($password, $admin->password))
         {
             $_SESSION['admin'] = $admin->id;
+
+            if($admin->password_token !== '')
+            {
+
+                $admin->password_token = '';
+
+                $admin->save();
+
+            }
+
             return true;
         }
 
@@ -63,6 +73,8 @@ class Auth
             $admin = CharityAdmin::where('email',$email)->first();
     
             $admin->password = password_hash($new_password, PASSWORD_BCRYPT);
+
+            $admin->password_token = '';
         
             $admin->save();
         

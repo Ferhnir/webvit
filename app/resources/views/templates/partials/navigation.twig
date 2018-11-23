@@ -1,6 +1,6 @@
 <!-- As a link -->
 <nav class="navbar navbar-bg d-flex">  
-  <a class="navbar-brand flex-grow-1" href="#">
+  <a class="navbar-brand flex-grow-1" href="{{ path_for('index') }}">
     <img src="{{ base_url() }}/app/public/images/ToY-logo.png" width="auto" height="58" alt="Toy-logo">
   </a>
   {% if auth.check %}

@@ -13,6 +13,17 @@ $container['db'] = function($container) use ($capsule){
   return $capsule;
 };
 
+
+unset($app->getContainer()['notFoundHandler']);
+
+//404 Error Handler
+$container['notFoundHandler'] = function($container) {
+    return function($request, $response) use ($container) {
+        $container->view->render($response, 'errors/404.twig');
+        return $response->withStatus(404);
+    };
+};
+
 //Auth Module
 $container['auth'] = function($container) {
     return new App\Auth\Auth;
@@ -31,9 +42,8 @@ $container['csrf'] = function ($container) {
 
 //Middlewares setup
 $app->add(new \App\Middlewares\CsrfViewMiddleware($container));
+$app->add(new \App\Middlewares\ValidationErrorsMiddleware($container));
 $app->add($container->csrf);
-
-
 
 //Flash Module
 $container['flash'] = function () {
@@ -42,6 +52,7 @@ $container['flash'] = function () {
 
 // TwigView setup
 $container['view'] = function ($container) {
+    
     $view = new \Slim\Views\Twig(__DIR__ . '/resources/views', [
         'cache' => false
     ]);
@@ -49,7 +60,6 @@ $container['view'] = function ($container) {
     $view->addExtension(new Slim\Views\TwigExtension(
         $container->get('router'), 
         $container->request->getUri()
-        // \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER))
     ));
 
     $view->getEnvironment()->addGlobal('auth', [
@@ -64,19 +74,19 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+//Validator
+$container['validator'] = function ($container) {
+    return new \App\Validations\Validator;
+};
 
 $container['AuthCtrl'] = function ($container) {
     return new \App\Controllers\Auth\AuthCtrl($container);
-};
-
-$container['JwtCtrl'] = function ($container) {
-    return new \App\Controllers\Auth\JwtCtrl($container);
 };
 
 $container['ReportFormCtrl'] = function ($container) {
     return new \App\Controllers\ReportFormCtrl($container);
 };
 
-$container['EmailResetCtrl'] = function ($container) {
-    return new \App\Controllers\EmailResetCtrl($container);
+$container['PasswordResetCtrl'] = function ($container) {
+    return new \App\Controllers\PasswordResetCtrl($container);
 };
