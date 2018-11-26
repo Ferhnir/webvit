@@ -1,5 +1,7 @@
 <?php
 
+use Respect\Validation\Validator as v;
+
 // Get container
 $container = $app->getContainer();
 
@@ -78,6 +80,8 @@ $container['view'] = function ($container) {
 $container['validator'] = function ($container) {
     return new \App\Validations\Validator;
 };
+
+v::with('\\App\\Validations\\Rules');
 
 $container['AuthCtrl'] = function ($container) {
     return new \App\Controllers\Auth\AuthCtrl($container);

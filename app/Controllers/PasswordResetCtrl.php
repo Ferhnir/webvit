@@ -67,12 +67,12 @@ class PasswordResetCtrl extends Controller
     public function passwordResetForm($request, $response)
     {
 
-        $data = Jwt::decodeToken($request->getParam('token'),$this->ci['token']['secret']);
+        $data = Jwt::decodeToken($_SESSION['token'], $this->ci['token']['secret']);
         
         $admin = CharityAdmin::where('email',$data->email)->first();
         
         
-        if($admin->password_token !== $request->getParam('token'))
+        if($admin->password_token !== $_SESSION['token'])
         {
 
             $this->flash->addMessage('error', 'Password change token is not valid');     
@@ -104,8 +104,8 @@ class PasswordResetCtrl extends Controller
     
         $validation = $this->validator->validate($request, [
 
-            'new_password' => v::noWhitespace()->notEmpty()->length(8),
-            're_new_password' => v::noWhitespace()->notEmpty()->length(8)
+            'new_password' => v::noWhitespace()->notEmpty()->length(8)->capLetters(1,'password'),
+            're_new_password' => v::noWhitespace()->notEmpty()->length(8)->capLetters(1,'password')
 
         ]);
 
@@ -115,13 +115,13 @@ class PasswordResetCtrl extends Controller
 
         }
 
-        die();
-
         $update = $this->auth->updatePassword($request->getParam('email'),$request->getParam('new_password'));
         
         if($update)
         {
         
+            unset($_SESSION['token']);
+
             $this->flash->addMessage('info', 'Password has been changed successfully');
         
             return $response->withRedirect($this->router->pathFor('password.changed'));
