@@ -9,12 +9,10 @@ class CapLetters extends AbstractRule
 {
 
     public $numOfCapitals;
-    public $field_name;
 
-    public function __construct($numOfCapitals, $field_name)
+    public function __construct($numOfCapitals)
     {
         $this->numOfCapitals = $numOfCapitals;
-        $this->field_name = ucfirst($field_name);
     }
 
     public function validate($input)

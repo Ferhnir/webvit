@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
 
 use Slim\Views\Twig as View;
 use App\Controllers\Controller;
@@ -12,22 +12,22 @@ use App\Controllers\MailCtrl as Mail;
 
 use Respect\Validation\Validator as v;
 
-class PasswordResetCtrl extends Controller
+class PasswordCtrl extends Controller
 {
-    
-    public function forgotPassword($request, $response)
+
+    public function index($request, $response)
     {
 
-        return $this->view->render($response, './email/forgot_password.twig'); 
-
+        return $this->view->render($response, './auth/password_recover.twig'); 
+        
     }
 
-    public function sendPasswordResetEmail($request, $response)
+    public function sendChangePasswordEmail($request, $response)
     {
 
         $validation = $this->validator->validate($request, [
 
-            'email' => v::noWhitespace()->notEmpty()->length(5)
+            'email' => v::noWhitespace()->notEmpty()->length(5)->regex('/[@]/'),
 
         ]);
 
@@ -46,7 +46,7 @@ class PasswordResetCtrl extends Controller
 
             $this->flash->addMessage('error', 'Email not found');
 
-            return $response->withRedirect($this->router->pathFor('email.error.msg')); 
+            return $response->withRedirect($this->router->pathFor('auth.password.recover')); 
 
         }
 
@@ -58,13 +58,13 @@ class PasswordResetCtrl extends Controller
 
         // $sendemail = Mail::sendEmail($email, $token);
 
-        return $this->view->render($response, './email/reset_password_email_sent.twig', [
+        return $this->view->render($response, './auth/token_sent.twig', [
             'token' => $token
         ]); 
-        return $this->view->render($response, './email/reset_password_email_sent.twig');
+        // return $this->view->render($response, './auth/token_sent.twig');
     }
-    
-    public function passwordResetForm($request, $response)
+
+    public function getChangePassword($request, $response)
     {
 
         $data = Jwt::decodeToken($_SESSION['token'], $this->ci['token']['secret']);
@@ -77,7 +77,7 @@ class PasswordResetCtrl extends Controller
 
             $this->flash->addMessage('error', 'Password change token is not valid');     
             
-            return $response->withRedirect($this->router->pathFor('email.forgot.password'));
+            return $response->withRedirect($this->router->pathFor('auth.password.change'));
 
         }
         
@@ -86,61 +86,58 @@ class PasswordResetCtrl extends Controller
             
             $this->flash->addMessage('error', 'Email not found');
             
-            return $response->withRedirect($this->router->pathFor('email.error.msg')); 
+            return $response->withRedirect($this->router->pathFor('auth.password.change')); 
             
         } else {
             
-            return $this->view->render($response, './email/reset_password_email_form.twig', [
+            return $this->view->render($response, './auth/password_change.twig', [
                 'email' => $data->email
                 ]);
                 
         }
-            
-            
+
     }
-        
-    public function passwordReset($request, $response)
+
+    public function postChangePassword($request, $response)
     {
-    
-        $validation = $this->validator->validate($request, [
-
-            'new_password' => v::noWhitespace()->notEmpty()->length(8)->capLetters(1,'password'),
-            're_new_password' => v::noWhitespace()->notEmpty()->length(8)->capLetters(1,'password')
-
-        ]);
-
-        if($validation->failed()) {
-
-            return $response->withRedirect($this->router->pathFor('password.reset.form')); 
-
-        }
-
-        $update = $this->auth->updatePassword($request->getParam('email'),$request->getParam('new_password'));
         
+        $validation = $this->validator->validate($request, [
+    
+            'new_password' => v::noWhitespace()
+                                    ->notEmpty()
+                                    ->length(8)
+                                    ->capLetters(1)
+                                    ->specSigns(1)
+    
+        ]);
+    
+        if($validation->failed()) {
+    
+            return $response->withRedirect($this->router->pathFor('auth.password.change')); 
+    
+        }
+    
+        $update = $this->auth->updatePassword($request->getParam('email'),$request->getParam('new_password'));
+            
         if($update)
         {
-        
+            
             unset($_SESSION['token']);
-
+    
             $this->flash->addMessage('info', 'Password has been changed successfully');
-        
-            return $response->withRedirect($this->router->pathFor('password.changed'));
-        
+            
+            return $response->withRedirect($this->router->pathFor('auth.signin'));
+            
         }
-        
+
     }
-        
+
     public function passwordChanged($request, $response)
     {
-
-        return $this->view->render($response, './email/password_changed.twig');
-
-    }
-
-    public function emailErrorMsg($request, $response)
-    {
-
-        return $this->view->render($response, './email/error_msg.twig');
+        
+        $this->flash->addMessage('info', 'Password has been changed successfully');
+        
+        return $response->withRedirect($this->router->pathFor('auth.signin'));
 
     }
 

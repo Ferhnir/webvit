@@ -14,7 +14,7 @@ class AuthCtrl extends Controller
     {
         if(!$this->ci->auth->check()){
 
-            return $this->view->render($response, 'auth/signin.twig');
+            return $this->view->render($response, './auth/signin.twig');
         
         } else {
 
@@ -55,7 +55,7 @@ class AuthCtrl extends Controller
     public function forgottenPassword($request, $response)
     {
 
-        return $this->view->render($response, 'auth/forgotten_password.twig'); 
+        return $this->view->render($response, './auth/forgotten_password.twig'); 
 
     }
 

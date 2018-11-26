@@ -26,29 +26,18 @@ $app->group('/auth', function(){
   
   //Sign out
   $this->get('/signout', 'AuthCtrl:getSignOut')->setName('auth.signout');
-
-
-});
-
-//Email
-$app->group('/email', function() {
-
-  //request
-  $this->get('/forgot_password', 'PasswordResetCtrl:forgotPassword')->setName('email.forgot.password');
-  $this->post('/forgot_password', 'PasswordResetCtrl:sendPasswordResetEmail');
-
-  //confirmation email sent
-  $this->get('/sent', 'PasswordResetCtrl:resetPasswordEmailSent')->setName('email.password.sent');
   
-  
-  //error handler
-  $this->get('/error', 'PasswordResetCtrl:emailErrorMsg')->setName('email.error.msg');
+  //password recover
+  $this->get('/password/recover', 'PasswordCtrl:index')->setName('auth.password.recover');
+  $this->post('/password/recover', 'PasswordCtrl:sendChangePasswordEmail');
+
+  //email sent confirmation
+  // $this->get('/password/recover/sent', 'PasswordCtrl:resetPasswordEmailSent')->setName('auth.password.recover.sent');
+
 });
 
 //Password reset form
-$app->get('/password_reset_form', 'PasswordResetCtrl:passwordResetForm')->setName('password.reset.form')->add(new TokenCheckMiddleware($container));
-$app->post('/password_reset_form','PasswordResetCtrl:passwordReset');
+$app->get('/auth/password/change', 'PasswordCtrl:getChangePassword')->setName('auth.password.change')->add(new TokenCheckMiddleware($container));
+$app->post('/auth/password/change','PasswordCtrl:postChangePassword');
 
-//confrimation password changed
-$app->get('/password_changed', 'PasswordResetCtrl:passwordChanged')->setName('password.changed');
 ?>

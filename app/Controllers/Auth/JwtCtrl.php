@@ -14,7 +14,7 @@ class JwtCtrl extends Controller
     {
 
         $now = Carbon::now()->timezone('Europe/London');
-        $future = Carbon::now()->timezone('Europe/London')->addHour();
+        $future = Carbon::now()->timezone('Europe/London')->addDay();
 
         $payload = [
             "iat" => $now->getTimeStamp(),

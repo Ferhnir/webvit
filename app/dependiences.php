@@ -94,3 +94,7 @@ $container['ReportFormCtrl'] = function ($container) {
 $container['PasswordResetCtrl'] = function ($container) {
     return new \App\Controllers\PasswordResetCtrl($container);
 };
+
+$container['PasswordCtrl'] = function ($container) {
+    return new \App\Controllers\Auth\PasswordCtrl($container);
+};
