@@ -56,12 +56,13 @@ class PasswordCtrl extends Controller
         
         $admin->save();
 
-        // $sendemail = Mail::sendEmail($email, $token);
+        $sendemail = Mail::sendEmail($email, $token);
 
-        return $this->view->render($response, './auth/token_sent.twig', [
-            'token' => $token
-        ]); 
-        // return $this->view->render($response, './auth/token_sent.twig');
+        // return $this->view->render($response, './auth/token_sent.twig', [
+        //     'token' => $token
+        // ]); 
+        return $this->view->render($response, './auth/token_sent.twig');
+        
     }
 
     public function getChangePassword($request, $response)
