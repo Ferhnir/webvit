@@ -6,6 +6,8 @@ use Slim\Views\Twig as View;
 use App\Controllers\Controller;
 use App\Models\CharityAdmin;
 
+use Respect\Validation\Validator as v;
+
 
 class AuthCtrl extends Controller
 {
@@ -26,6 +28,18 @@ class AuthCtrl extends Controller
     
     public function postSignIn($request, $response)
     {
+
+        $validation = $this->validator->validate($request, [
+
+            'email' => v::noWhitespace()->notEmpty()->length(5)->regex('/[@]/')
+            
+        ]);
+
+        if($validation->failed()) {
+
+            return $response->withRedirect($this->router->pathFor('auth.signin')); 
+
+        }
 
         $auth = $this->auth->attempt(
             $request->getParam('email'),

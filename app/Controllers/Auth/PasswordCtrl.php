@@ -33,7 +33,7 @@ class PasswordCtrl extends Controller
 
         if($validation->failed()) {
 
-            return $response->withRedirect($this->router->pathFor('email.forgot.password', ['tet' => 3])); 
+            return $response->withRedirect($this->router->pathFor('email.forgot.password')); 
 
         }
 
