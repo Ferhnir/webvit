@@ -52,15 +52,19 @@ class PasswordCtrl extends Controller
 
         $token = Jwt::generateToken($email, $this->ci['token']['secret']);
 
-        $admin->password_token = $token;
-        
+        $admin->password_token = $token;        
         $admin->save();
 
-        $sendemail = Mail::sendEmail($email, $token);
+        $sendemail = new Mail($this->ci);
+        $sendemail->setHostPath($request);
 
-        // return $this->view->render($response, './auth/token_sent.twig', [
-        //     'token' => $token
-        // ]); 
+        if(!$sendemail->sendEmail($email, $token))
+        {
+            $this->flash->addMessage("error", "Email couldn't be sent");
+
+            return $response->withRedirect($this->router->pathFor('auth.password.recover')); 
+        }
+        
         return $this->view->render($response, './auth/token_sent.twig');
         
     }

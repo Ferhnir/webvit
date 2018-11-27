@@ -8,12 +8,31 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+use Slim\Http\Request;
+
 class MailCtrl extends Controller
 {
+    protected $email_link;
+
+    // public function __construct(Request $request)
+    // {
+
+    //     $route = $request->getUri();
+
+    //     $this->email_link = $route->getBaseUrl().'/'.$route->getPathFor('auth.password.change');
+
+    // }
+    
+    public function setHostPath(Request $uri){
+
+        
+        $this->email_link = $uri->getUri()->getScheme().'://'.$uri->getUri()->getHost().$this->getPathFor('auth.password.change');
+
+    }
 
     public function sendEmail($recipment, $token)
     {
-
+        
         try {
 
             $mailer = new PHPMailer(true);
@@ -40,7 +59,7 @@ class MailCtrl extends Controller
             
             
             //Recipienters
-            $mailer->setFrom($mailer->Username,'sdfds');
+            $mailer->setFrom($mailer->Username,'noreply@passwordrecovery.webvit.com');
             
             $mailer->addAddress($recipment); // Add a recipient
 
@@ -52,7 +71,7 @@ class MailCtrl extends Controller
             
             $mailer->Subject = 'Password reset';
             
-            $mailer->Body = '<a href="http://localhost/webvit/password_reset_form?token=' . $token . '">http://localhost/webvit/password_reset_form?token='.$token.'</a>';
+            $mailer->Body = '<a href="'. $this->email_link .'?token=' . $token . '">'. $this->email_link .'?token='.$token.'</a>';
             
             $mailer->AltBody = 'testing a mailserver';
             
@@ -69,8 +88,7 @@ class MailCtrl extends Controller
             }
             
         } catch(Exception $e) {
-            
-            // $this->exitCode = -2;
+
             echo $e;
 
         }

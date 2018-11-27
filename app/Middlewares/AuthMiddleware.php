@@ -9,7 +9,7 @@ class AuthMiddleware extends Middleware
 
     public function __invoke($request, $response, $next)
     {
-
+        
         if(!$this->ci->auth->check())
         {
 
