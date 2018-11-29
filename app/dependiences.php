@@ -37,6 +37,12 @@ $container['token'] = function ($c) {
     return $token;
 };
 
+//SMTP
+$container['smtp'] = function ($c) {
+    $smtp = $c['settings']['smtp'];
+    return $smtp;
+};
+
 //CSRF Module
 $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;

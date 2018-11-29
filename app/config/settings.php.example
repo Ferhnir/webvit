@@ -18,11 +18,19 @@ return [
             'prefix'        => ''
         ],        
 
-        //JWToken settings
+        //JWToken
         'token' => [
             'secret' => '',
             'validation' => 1
         ],
+
+        //SMTP
+        'smtp' => [
+            'host' => '',
+            'user' => '',
+            'password' => '',
+            'sent_from' => ''
+        ]
     ],
 ];
 ?>

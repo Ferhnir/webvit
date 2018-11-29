@@ -43,13 +43,13 @@ class MailCtrl extends Controller
             
             $mailer->isSMTP(); // Set mailer to use SMTP
             
-            $mailer->Host = '92.63.131.250'; // Specify main and backup SMTP servers
+            $mailer->Host =  $this->ci['smtp']['host']; // Specify main and backup SMTP servers
             
             $mailer->SMTPAuth = true; // Enable SMTP authentication
             
-            $mailer->Username = 'portal@thinkingofyouapp.com'; // SMTP username
+            $mailer->Username =  $this->ci['smtp']['user']; // SMTP username
             
-            $mailer->Password = 'W2p4v06w8z76745ES6QaXQI0C'; // SMTP password
+            $mailer->Password =  $this->ci['smtp']['password']; // SMTP password
             
             $mailer->SMTPSecure = false; // Enable TLS encryption, `ssl` also accepted
             
@@ -59,12 +59,10 @@ class MailCtrl extends Controller
             
             
             //Recipienters
-            $mailer->setFrom($mailer->Username,'noreply@passwordrecovery.webvit.com');
+            $mailer->setFrom($mailer->Username,  $this->ci['smtp']['sent_from']);
             
             $mailer->addAddress($recipment); // Add a recipient
 
-            // $mailer->addAddress('zax1984@gmail.com');
-                      
             //Contenter
             $mailer->isHTML(true);
             // Set email format to HTML
