@@ -16,7 +16,7 @@ class TokenCheckMiddleware extends Middleware
         {
             $this->ci->flash->addMessage('error','Token is missing...');
 
-            return $response->withRedirect($this->ci->router->pathFor('email.forgot.password'));
+            return $response->withRedirect($this->ci->router->pathFor('auth.password.recover'));
 
         }
 
