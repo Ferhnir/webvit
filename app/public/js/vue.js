@@ -11,14 +11,12 @@ var passwordChangeVerification = new Vue({
         samePassword: false,
         minOneCapLetter: false,
         minOneSpecialSign: false
-      }
+      },
     }
   },
   methods: {
     eventChange() {
-
       this.validatePasswords();
-
     },
     validate() {
       return this.validations.notNull && this.validations.minLength && this.validations.samePassword;
@@ -37,8 +35,9 @@ var passwordChangeVerification = new Vue({
       //has one capital letter
       this.findCapLetter(this.newPassword,1) ? this.validations.minOneCapLetter = true : this.validations.minOneCapLetter = false;
       
-      
-      this.submitBttn = this.validate();
+      parseInt(this.newPassword.length) > 0 ? this.submitBttn = this.validate() : '';
+
+      this.validate();
 
     },
     findCapLetter(password, nr) {

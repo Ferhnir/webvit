@@ -57,6 +57,23 @@ input:-webkit-autofill {
     width: 100%;
 }
 
+.invalid-passwords {
+    padding-top: 10px;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.visible {
+    display: block;
+}
+
+.invalid-passwords > p {
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
 /* Navbar */
 
 .topbar {
