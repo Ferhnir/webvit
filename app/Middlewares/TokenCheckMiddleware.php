@@ -10,7 +10,7 @@ class TokenCheckMiddleware extends Middleware
     public function __invoke($request, $response, $next)
     {
 
-        $request->getParam('token') !== null ? $_SESSION['token'] = $request->getParam('token') : '';
+        $request->getParam('token') !== null ? $_SESSION['token'] = $request->getParam('token') : $_SESSION['token'] == null;
 
         if($_SESSION['token'] == null)
         {

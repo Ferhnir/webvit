@@ -75,14 +75,13 @@ class PasswordCtrl extends Controller
         $data = Jwt::decodeToken($_SESSION['token'], $this->ci['token']['secret']);
         
         $admin = CharityAdmin::where('email',$data->email)->first();
-        
-        
+       
         if($admin->password_token !== $_SESSION['token'])
         {
 
             $this->flash->addMessage('error', 'Password change token is not valid');     
             
-            return $response->withRedirect($this->router->pathFor('auth.password.change'));
+            return $response->withRedirect($this->router->pathFor('auth.password.recover'));
 
         }
         
@@ -91,7 +90,7 @@ class PasswordCtrl extends Controller
             
             $this->flash->addMessage('error', 'Email not found');
             
-            return $response->withRedirect($this->router->pathFor('auth.password.change')); 
+            return $response->withRedirect($this->router->pathFor('auth.password.recover')); 
             
         } else {
             

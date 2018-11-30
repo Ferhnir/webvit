@@ -31,9 +31,6 @@ $app->group('/auth', function(){
   $this->get('/password/recover', 'PasswordCtrl:index')->setName('auth.password.recover');
   $this->post('/password/recover', 'PasswordCtrl:sendChangePasswordEmail');
 
-  //email sent confirmation
-  // $this->get('/password/recover/sent', 'PasswordCtrl:resetPasswordEmailSent')->setName('auth.password.recover.sent');
-
 });
 
 //Password reset form
