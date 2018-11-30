@@ -1,50 +1,40 @@
-var passwordChangeVerification = new Vue({
-  el: '#passwordChangeVerification',
+var app = new Vue({
+  el: '#app',
   data() {
     return {
-      submitBttn: false,
       newPassword: '',
       reNewPassword: '',
-      validations: {
-        notNull: false,
-        minLength: false,
-        samePassword: false,
-        minOneCapLetter: false,
-        minOneSpecialSign: false
-      },
+      date_from: '',
+      showFlash: true
+    }
+  },
+  computed: {
+    validated: function() {
+
+      return this.oneCapLetter && this.oneSpecialChar && this.newPassword == this.reNewPassword && this.newPassword.length > 0;
+
+    },
+    oneCapLetter: function() {
+
+      return this.newPassword.match(/[A-Z]/) ? true : false;
+
+    },
+    oneSpecialChar: function() {
+
+      return this.newPassword.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/) ? true : false;
+
     }
   },
   methods: {
-    eventChange() {
-      this.validatePasswords();
-    },
-    validate() {
-      return this.validations.notNull && this.validations.minLength && this.validations.samePassword;
-    },
-    validatePasswords() {
+    refreshPage() {
       
-      //not empty
-      this.newPassword.length > 0 ? this.validations.notNull = true : this.validations.notNull = false;
+      setTimeout(() => location.reload(), 3000);
       
-      //longer than 7
-      this.newPassword.length >= 8 ? this.validations.minLength = true : this.validations.minLength = false;
-      
-      //same passwords
-      this.newPassword == this.reNewPassword ? this.validations.samePassword = true : this.validations.samePassword = false;
-      
-      //has one capital letter
-      this.findCapLetter(this.newPassword,1) ? this.validations.minOneCapLetter = true : this.validations.minOneCapLetter = false;
-      
-      parseInt(this.newPassword.length) > 0 ? this.submitBttn = this.validate() : '';
-
-      this.validate();
-
-    },
-    findCapLetter(password, nr) {
-      return password.replace(/[a-z]/g, '').length >= nr;
-    },
-    findSpecialCharacter(password) {
-
     }
+  },
+  mounted: function() {
+
+    setTimeout(() => this.showFlash = false, 3000);
+
   }
 });

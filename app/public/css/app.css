@@ -18,6 +18,11 @@ input.form-control {
     border-radius: 19px;
 }
 
+.mw-260{
+    max-width: 260px;
+    margin: auto;
+}
+
 .form-group {
     text-align: center;
 }
@@ -59,11 +64,19 @@ input:-webkit-autofill {
 }
 
 .invalid-passwords {
-    padding-top: 10px;
+    padding: 10px 0px 0px 15px;
     width: 100%;
     margin-top: .25rem;
-    font-size: 80%;
-    color: #dc3545;
+    font-size: 0.75rem;
+    color: #000;
+}
+
+.textDeco {
+    text-decoration: line-through;
+}
+
+.hidden {
+    display: none;
 }
 
 .visible {
@@ -158,3 +171,13 @@ input:-webkit-autofill {
     top: 100px;
     left: -50px;
 }
+
+
+/* fade animation */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s ease-in-out;
+  }
+  
+  .fade-enter, .fade-leave-active {
+    opacity: 0;
+  }
