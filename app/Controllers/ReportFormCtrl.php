@@ -58,15 +58,25 @@ class ReportFormCtrl extends Controller
         
         $stream = fopen('php://memory', 'w+');
     
-        fputcsv($stream, $this->columnsHeader);
+        fputcsv($stream, array_merge($this->columnsHeader,[
+            'Date and time',
+            'ToY fee',
+            'Provider fee',
+            'Balance'
+        ]));
 
         foreach ($query as $fields) {
             $data = [];
             foreach($this->columns as $column_name){
-                array_push($data, str_replace('\r\l',' ',$fields[$column_name]));
-                
+                array_push($data, str_replace('\r\l',' ',$fields[$column_name]));                
             }
-            fputcsv($stream, $data);
+
+            fputcsv($stream, array_merge($data, [
+                'Date and time' => date('Y-m-d, H:i:s', $fields->timeCompleted),
+                'ToY fee'       => $this->calToyFee($fields->total_donation),
+                'Provider fee'  => $this->calProviderFee($fields->type, $fields->total_donation),
+                'Balance'       => $this->calBalance($fields->total_donation, $this->calToyFee($fields->total_donation), $this->calProviderFee($fields->type, $fields->total_donation))
+            ]));
         }
 
         rewind($stream);
@@ -93,7 +103,9 @@ class ReportFormCtrl extends Controller
             'total_donation',
             'address_line1',
             'user_id',
-            'email'
+            'email',
+            'timeCompleted',            
+            'type'
         ];
 
         $this->columnsHeader = [
@@ -103,8 +115,31 @@ class ReportFormCtrl extends Controller
             'Total Donation',
             'Address',
             'User ID',
-            'Email'
+            'Email',
+            'Time completed',
+            'Payment type'
         ];
+    }
+
+    private function calProviderFee($paymentType, $total)
+    {
+
+        return number_format(($paymentType =='paypal' ? ((0.034 *$total) + 0.20) : ((0.014 *$total) + 0.20)),2);
+
+    }
+
+    private function calToyFee($total)
+    {
+
+        return number_format((0.025 * $total), 2);
+        
+    }
+
+    private function calBalance($total, $toyFees, $provFees)
+    {
+
+        return ($total - $toyFees - $provFees);
+
     }
 
 }
