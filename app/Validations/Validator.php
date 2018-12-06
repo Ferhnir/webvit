@@ -7,13 +7,23 @@ class Validator
     protected $errors;
     public function validate($request, array $rules)
     {
+
+        // if($request->getParam('new_password') !== $request->)
+        // {
+        //     $this->errors['no_match'] = "Passwords doesn't match";
+        // }
+
         foreach($rules as $field => $rule)
         {
             try {
                 
-                $rule->setName(ucfirst(str_replace(['re_new_','new_'], "", $field)))->assert($request->getParam($field));
+                $rule->setName(ucfirst(str_replace('new_', '', $field)))->assert($request->getParam($field));
             
             } catch (Exception $e) {
+                
+                $this->errors['passwords'] = $e->findMessages([
+                    'equals' => "Passwords doesn't match"
+                ]);
                 $this->errors[$field] = $e->getMessages();
             }
         }

@@ -65,7 +65,9 @@ class PasswordCtrl extends Controller
             return $response->withRedirect($this->router->pathFor('auth.password.recover')); 
         }
         
-        return $this->view->render($response, './auth/token_sent.twig');
+        return $this->view->render($response, './auth/token_sent.twig', [
+            'token' => $token
+        ]);
         
     }
 
@@ -105,14 +107,13 @@ class PasswordCtrl extends Controller
     public function postChangePassword($request, $response)
     {
         
-        $validation = $this->validator->validate($request, [
-    
+        $validation = $this->validator->validate($request, [    
             'new_password' => v::noWhitespace()
-                                    ->notEmpty()
-                                    ->length(8)
-                                    ->capLetters(1)
-                                    ->specSigns(1)
-    
+                                 ->notEmpty()
+                                 ->length(8)
+                                 ->capLetters(1)
+                                 ->specSigns(1)
+                                 ->equals($request->getParam('re_new_password')),
         ]);
     
         if($validation->failed()) {
