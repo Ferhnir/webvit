@@ -1,14 +1,36 @@
-{% include 'templates/partials/navigation.twig' %}
-  <div class="background-image-container">
-    <div class="textbox">
-      <h2 class="text-xl">Oops! We can't seem to find the page you are looking for.</h2>
-      <p><a href="/" class="button">Back to home</a></p>
-    </div>
-  </div>
-  <style>
-    body {
-      background-image: url('http://toysite.pxdev.net/wp-content/themes/toy/assets/img/404-bg.png');
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-  </style>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' id='font-css'  href='https://fonts.googleapis.com/css?family=Nunito%3A200%2C300%2C300i%2C400%2C400i%2C600&#038;ver=4.9.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='aos-css'  href='https://unpkg.com/aos@2.3.1/dist/aos.css?ver=4.9.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='owl-css'  href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css?ver=4.9.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='grid-css'  href='https://thinkingofyouapp.com/wp-content/themes/toy/assets/css/grid.css?ver=4.9.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='main-css'  href='https://thinkingofyouapp.com/wp-content/themes/toy/style.css?ver=4.9.8' type='text/css' media='all' />
+        <script type='text/javascript' src='https://thinkingofyouapp.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+        <script type='text/javascript' src='https://thinkingofyouapp.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+    </head>
+    <body>
+        <header class="main-header" style="height: 85px;">  
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-md-3">
+                <a href="{{ path_for('index') }}" title="Thinking of You" class="logo">
+                  <img src="{{ base_url() }}/app/public/images/ToY-logo.png" alt="Thinking of You Logo" height="58" style="margin: 10px auto 10px 5px;">
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section class="section-404 aos-init aos-animate" data-aos="fade-up" style="margin-top: -30px;">
+          <div class="background-image-container">
+            <img src="{{ base_url() }}/app/public/images/404-bg.png">
+            <div class="textbox">
+              <h2 class="text-xl">Oops! We can't seem to find the page you are looking for.</h2>
+              <p><a href="/" class="button">Back to home</a></p>
+            </div>
+          </div>
+        </section>
+    </body>
+</html>
