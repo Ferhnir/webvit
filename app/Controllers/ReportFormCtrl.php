@@ -6,6 +6,8 @@ use Slim\Views\Twig as View;
 
 use Illuminate\Database\Schema\Builder;
 
+use App\Controllers\IncomeCalculatorCtrl as IncomeCal;
+
 use App\Models\PaymentTransactions as PayTrans;
 
 class ReportFormCtrl extends Controller
@@ -71,12 +73,14 @@ class ReportFormCtrl extends Controller
                 array_push($data, str_replace('\r\l',' ',$fields[$column_name]));                
             }
 
+            $incomCal = new IncomeCal($fields->type, $fields->total_donation);
+
             fputcsv($stream, array_merge($data, [
                 'Date and time' => date('Y-m-d, H:i:s', $fields->timeCompleted),
-                'ToY fee'       => $this->calToyFee($fields->total_donation),
-                'Provider fee'  => $this->calProviderFee($fields->type, $fields->total_donation),
-                'Balance'       => $this->calBalance($fields->total_donation, $this->calToyFee($fields->total_donation), $this->calProviderFee($fields->type, $fields->total_donation))
-            ]));
+                'ToY fee'       => number_format($incomCal->calToyFee(), 2),
+                'Provider fee'  => number_format($incomCal->calProvFee(), 2),
+                'Balance'       => number_format($incomCal->calBalance(), 2)
+                ]));
         }
 
         rewind($stream);
@@ -124,22 +128,14 @@ class ReportFormCtrl extends Controller
     private function calProviderFee($paymentType, $total)
     {
 
-        return number_format(($paymentType =='paypal' ? ((0.034 *$total) + 0.20) : ((0.014 *$total) + 0.20)),2);
+        return $paymentType =='paypal' ? (0.034 *$total) + 0.20 : (0.014 *$total) + 0.20;
 
     }
 
     private function calToyFee($total)
     {
 
-        return number_format((0.025 * $total), 2);
+        return 0.025 * $total;
         
     }
-
-    private function calBalance($total, $toyFees, $provFees)
-    {
-
-        return ($total - $toyFees - $provFees);
-
-    }
-
 }

@@ -13,15 +13,6 @@ use Slim\Http\Request;
 class MailCtrl extends Controller
 {
     protected $email_link;
-
-    // public function __construct(Request $request)
-    // {
-
-    //     $route = $request->getUri();
-
-    //     $this->email_link = $route->getBaseUrl().'/'.$route->getPathFor('auth.password.change');
-
-    // }
     
     public function setHostPath(Request $uri){
 
