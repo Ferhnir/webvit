@@ -24,6 +24,7 @@ class ReportFormCtrl extends Controller
     
     public function downloadCsvAction($request, $response)
     {       
+
         $this->setColumns();
 
         $this->from   = strtotime($this->request->getParam('date_from'));
@@ -44,6 +45,7 @@ class ReportFormCtrl extends Controller
         
         $query = PayTrans::select($this->columns)
                           ->where('status','=','1')
+                          ->where('to_charity','=',$this->ci->auth->admin()->charity_group)
                           ->where(function ($query) use ($from, $to){
                               $query->whereBetween('timeCompleted',[$from, $to + 86400]);
                           })

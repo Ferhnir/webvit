@@ -48,7 +48,7 @@ class AuthCtrl extends Controller
 
         if(!$auth)
         {
-            $this->flash->addMessage('error', 'Login or password doesnt match');
+            $this->flash->addMessage("error", "Login or password doesn't match");
             return $response->withRedirect($this->router->pathFor('auth.signin'));     
         }
 
