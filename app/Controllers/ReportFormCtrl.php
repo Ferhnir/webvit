@@ -21,8 +21,13 @@ class ReportFormCtrl extends Controller
 
         $charity = Charities::select('charity_logo')->where('charity_id','=',$this->ci->auth->admin()->charity_group)->first();
 
+        if(!isset($charity->charity_logo))
+        {
+            $charity['charity_logo'] = 'http://localhost/webvit/app/public/images/ToY-logo.png';
+        } 
+
         return $this->view->render($response, 'reportForm.twig', [
-            'charity_logo' => $charity->charity_logo
+            'charity_logo' => $charity['charity_logo']
         ]);
     
     }
@@ -47,10 +52,18 @@ class ReportFormCtrl extends Controller
 
         }
         
+        $admin_group = $this->ci->auth->admin()->charity_group;
         
         $query = PayTrans::select($this->columns)
                           ->where('status','=','1')
-                          ->where('to_charity','=',$this->ci->auth->admin()->charity_group)
+                          ->where(function($query) use ($admin_group){
+                              if((int) $admin_group === (int) 0)
+                              {
+                                $query->where('to_charity','>',0);
+                              } else {
+                                $query->where('to_charity','=',$admin_group);
+                              }
+                          })
                           ->where(function ($query) use ($from, $to){
                               $query->whereBetween('timeCompleted',[$from, $to + 86400]);
                           })
