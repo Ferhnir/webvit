@@ -8,6 +8,7 @@ use Illuminate\Database\Schema\Builder;
 
 use App\Controllers\IncomeCalculatorCtrl as IncomeCal;
 
+use App\Models\Charities;
 use App\Models\PaymentTransactions as PayTrans;
 
 class ReportFormCtrl extends Controller
@@ -18,7 +19,11 @@ class ReportFormCtrl extends Controller
     public function index($request, $response)
     {
 
-        return $this->view->render($response, 'reportForm.twig');
+        $charity = Charities::select('charity_logo')->where('charity_id','=',$this->ci->auth->admin()->charity_group)->first();
+
+        return $this->view->render($response, 'reportForm.twig', [
+            'charity_logo' => $charity->charity_logo
+        ]);
     
     }
     
